@@ -45,7 +45,7 @@ jobs:
       - name: Install mypy
         run: pip install mypy
       - name: Run mypy
-        uses: amilcarlucas/mypy-github-action@releases/v1
+        uses: amilcarlucas/mypy-github-action@releases/v2.0.0
         with:
           checkName: 'lint'   # NOTE: this needs to be the same as the job name
           mypyFlags: '--config-file pyproject.toml'
