@@ -17,14 +17,24 @@ async function runMypy(mypyFlags: string, mypyFiles: string): Promise<string> {
   }
   try {
     await exec.exec(['mypy', mypyFlags, mypyFiles].join(' '), [], options)
-  } catch (error: any) {
-    core.debug(error)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      core.debug(error.message)
+    } else {
+      core.debug(String(error))
+    }
   }
   return mypyOutput
 }
 
 // type Annotation = octokit.ChecksUpdateParamsOutputAnnotations
-type Annotation = any
+type Annotation = {
+  path: string;
+  start_line: number;
+  end_line: number;
+  annotation_level: 'failure';
+  message: string;
+};
 // Regex the output for error lines, then format them in
 function parseMypyOutput(output: string): Annotation[] {
   // Group 0: whole match
@@ -94,8 +104,12 @@ async function run(): Promise<void> {
       await createCheck(checkName, 'mypy failure', annotations)
       core.setFailed(`${annotations.length} errors(s) found`)
     }
-  } catch (error: any) {
-    core.setFailed(error.message)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      core.debug(error.message)
+    } else {
+      core.debug(String(error))
+    }
   }
 }
 

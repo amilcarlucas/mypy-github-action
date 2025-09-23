@@ -31,4 +31,6 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: ./
         with:
-          milliseconds: 1000
+          checkName: 'mypy'
+          mypyFlags: '--config-file pyproject.toml'
+          mypyFiles: '.'
