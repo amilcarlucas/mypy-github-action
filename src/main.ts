@@ -5,7 +5,6 @@ import * as github from '@actions/github'
 
 const {GITHUB_TOKEN} = process.env
 
-
 async function runMypy(mypyFlags: string, mypyFiles: string): Promise<string> {
   let mypyOutput = ''
   const options = {
@@ -29,12 +28,12 @@ async function runMypy(mypyFlags: string, mypyFiles: string): Promise<string> {
 
 // type Annotation = octokit.ChecksUpdateParamsOutputAnnotations
 type Annotation = {
-  path: string;
-  start_line: number;
-  end_line: number;
-  annotation_level: 'failure';
-  message: string;
-};
+  path: string
+  start_line: number
+  end_line: number
+  annotation_level: 'failure'
+  message: string
+}
 // Regex the output for error lines, then format them in
 function parseMypyOutput(output: string): Annotation[] {
   // Group 0: whole match
