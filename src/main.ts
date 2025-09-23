@@ -5,22 +5,22 @@ import * as github from '@actions/github'
 
 const {GITHUB_TOKEN} = process.env
 
-async function runMypy(): Promise<string> {
-  let myOutput = ''
+
+async function runMypy(mypyFlags: string, mypyFiles: string): Promise<string> {
+  let mypyOutput = ''
   const options = {
     listeners: {
       stdout: (data: Buffer) => {
-        myOutput += data.toString()
+        mypyOutput += data.toString()
       }
     }
   }
   try {
-    await exec.exec('mypy .', [], options)
-    myOutput = ''
+    await exec.exec(['mypy', mypyFlags, mypyFiles].join(' '), [], options)
   } catch (error: any) {
     core.debug(error)
   }
-  return myOutput
+  return mypyOutput
 }
 
 // type Annotation = octokit.ChecksUpdateParamsOutputAnnotations
@@ -85,7 +85,9 @@ async function createCheck(
 
 async function run(): Promise<void> {
   try {
-    const mypyOutput = await runMypy()
+    const mypyFlags = core.getInput('mypyFlags')
+    const mypyFiles = core.getInput('mypyFiles')
+    const mypyOutput = await runMypy(mypyFlags, mypyFiles)
     const annotations = parseMypyOutput(mypyOutput)
     if (annotations.length > 0) {
       const checkName = core.getInput('checkName')
