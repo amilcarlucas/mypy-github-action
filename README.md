@@ -24,7 +24,7 @@ This action accepts the following input parameters:
 Add the following to your workflow file (e.g. `.github/workflows/lint.yml`):
 
 ```yaml
-name: Lint
+name: lint
 
 on:
   push:
@@ -47,7 +47,7 @@ jobs:
       - name: Run mypy
         uses: amilcarlucas/mypy-github-action@releases/v1
         with:
-          checkName: 'mypy'   # NOTE: this needs to be the same as the job name
+          checkName: 'lint'   # NOTE: this needs to be the same as the job name
           mypyFlags: '--config-file pyproject.toml'
           mypyFiles: '.'
         env:
