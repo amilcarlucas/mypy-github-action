@@ -17,6 +17,6 @@ inputs:
     description: 'Files on which to run mypy (default runs on full project)'
     required: false
     default: '.'
-  runs:
+runs:
   using: 'node20'
   main: 'dist/index.js'
