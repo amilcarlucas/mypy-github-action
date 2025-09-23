@@ -1,5 +1,5 @@
 name: 'Mypy action'
-description: 'Run flake8 and annotate the results'
+description: 'Run mypy and annotate the results'
 author: 'amilcarlucas'
 branding:
   icon: check-circle

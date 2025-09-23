@@ -4,19 +4,26 @@
 
 # `mypy` GitHub Action
 
-This is forked from [sasanquaneuf](https://github.com/sasanquaneuf/mypy-github-action).
+This is a GitHub Action to run [`mypy`](https://mypy-lang.org/) against your repository and annotate results directly in your pull requests using GitHub Checks.
 
-This is a GitHub Action to run `mypy` against your repository.
-It uses the new GitHub Actions API and JavaScript toolkit.
-It does fancy things like add annotations to your PRs inline.
+## Inputs
 
-(image)
+This action accepts the following input parameters:
 
-Use it in your project like:
+- **checkName** (required):
+  The name of the GitHub check to add annotations to. This should generally match the job name in your workflow.
 
-(in `.github/workflows/lint.yml`)
+- **mypyFlags** (optional):
+  Additional flags to pass to the `mypy` command (e.g., `--config-file pyproject.toml`). Default: `''`
 
-```github
+- **mypyFiles** (optional):
+  Files or directories on which to run `mypy`. Default: `.` (runs on the full project)
+
+## Usage Example
+
+Add the following to your workflow file (e.g. `.github/workflows/lint.yml`):
+
+```yaml
 name: Lint
 
 on:
@@ -47,6 +54,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+## What happens?
+
+The action runs `mypy` on the specified files with the given flags.
+Any type errors found are annotated directly in the PR using GitHub Checks.
+The check will fail if any errors are found, making it easy to enforce type safety in your CI.
+
+Inputs Reference
+
+| Name      | Required | Default | Description                          |
+|-----------|----------|---------|--------------------------------------|
+| checkName | Yes      |         | Name of the GitHub check to annotate.|
+| mypyFlags | No       | ''      | Additional flags for mypy.           |
+| mypyFiles | No       | .       | Files/directories to check.          |
+
 # Acknowledgments
 
 This GitHub Action was made with reference to [flake8-github-action](https://github.com/suo/flake8-github-action)
+This is forked from [sasanquaneuf](https://github.com/sasanquaneuf/mypy-github-action).
