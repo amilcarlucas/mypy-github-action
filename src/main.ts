@@ -11,6 +11,9 @@ async function runMypy(mypyFlags: string, mypyFiles: string): Promise<string> {
     listeners: {
       stdout: (data: Buffer) => {
         mypyOutput += data.toString()
+      },
+      stderr: (data: Buffer) => {
+        mypyOutput += data.toString()
       }
     }
   }
